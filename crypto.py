@@ -138,6 +138,6 @@ def main():
         return main()
     
 print("Welcome to my encryption program!")
-print("Currently there is a bug. Saved files updates after exit of the program.\n")
+print("Saved files updates after exit of the program.\n")
 
 main()
