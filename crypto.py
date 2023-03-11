@@ -2,8 +2,21 @@ from cryptography.fernet import Fernet
 import color
 
 
-print("Welcome to my encryption program!")
-print("Please update me with bugs and your ideas.")
+print(
+    """
+ |||||||| ||     || ||||||||     |||     ||||||   |||||||| ||    || ||||||||  |||||||  |||||||| 
+    ||    ||     || ||          || ||   ||    ||  ||       |||   ||    ||    ||     || ||    || 
+    ||    ||     || ||         ||   ||  ||        ||       ||||  ||    ||           ||     ||   
+    ||    ||||||||| ||||||    ||     || ||   |||| ||||||   || || ||    ||     |||||||     ||    
+    ||    ||     || ||        ||||||||| ||    ||  ||       ||  ||||    ||           ||   ||     
+    ||    ||     || ||        ||     || ||    ||  ||       ||   |||    ||    ||     ||   ||     
+    ||    ||     || ||||||||  ||     ||  ||||||   |||||||| ||    ||    ||     |||||||    ||   
+
+
+Welcome to my encryption program!
+Please update me with bugs and your ideas.
+"""
+)
 
 # ? This is the encryption code
 def Encrypt(key):
