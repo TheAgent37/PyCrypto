@@ -5,3 +5,6 @@ __pycache__/
 
 #Code created files
 *.txt
+
+#Folders
+output
