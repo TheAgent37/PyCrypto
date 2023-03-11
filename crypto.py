@@ -1,4 +1,5 @@
 from cryptography.fernet import Fernet
+import color
 
 
 print("Welcome to my encryption program!")
@@ -12,23 +13,27 @@ def Encrypt(key):
     if ask_file == "t":
         text = input("Enter text for encrypting with random key: ")
         encrypted_text = fe.encrypt(bytes(text, "utf-8"))
-        with open("encrypted.txt", "wb") as f:
+        with open("output\encrypted.txt", "wb") as f:
             f.write(encrypted_text)
-        print("Encrypted text will be saved to encrypted.txt\n")
-
+        print(
+            f"Encrypted text will be saved to{color.BOLD}{color.YELLOW} encrypted.txt\n{color.END}"
+        )
+        Sec()
     elif ask_file == "f":
         path_file = input("Enter the file path: ")
         with open(f"{path_file}", "rb") as file_encrypt:
             encrypted_text = fe.encrypt(file_encrypt.read())
-        with open("encrypted.txt", "wb") as f:
+        with open("output\encrypted.txt", "wb") as f:
             f.write(encrypted_text)
-        print("Encrypted text will be saved to encrypted.txt\n")
-
+        print(
+            f"Encrypted text will be saved to{color.BOLD}{color.YELLOW} encrypted.txt\n{color.END}"
+        )
+        Sec()
     elif ask_file == "b":
         return Main()
 
     else:
-        print("\033[31mInvalid input\033[39m")  # TODO integrate color.py file
+        print(color.RED, "Invalid input", color.END)
         return Main()
 
 
@@ -41,24 +46,28 @@ def Decrypt():
     if ask_file == "t":
         text = input("Enter encrypted test: \n")
         decrypted_text = fe.decrypt(bytes(text, "utf-8"))
-        with open("decrypted.txt", "wb") as f:
+        with open("output\decrypted.txt", "wb") as f:
             f.write(decrypted_text)
-        print("Decrypted text will be saved to decrypted.txt")
-
+        print(
+            f"Decrypted text will be saved to{color.BOLD}{color.YELLOW} decrypted.txt{color.END}"
+        )
+        Sec()
     # ? This part of the code takes input from a file given by user
     elif ask_file == "f":
         path_file = input("Enter the file path: ")
         with open(f"{path_file}", "rb") as file_decrypt:
             decrypted_text = fe.decrypt(file_decrypt.read())
-        with open("decrypted.txt", "wb") as f:
+        with open("output\decrypted.txt", "wb") as f:
             f.write(decrypted_text)
-        print("Decrypted text will besaved to decrypted.txt\n")
-
+        print(
+            f"Decrypted text will besaved to{color.BOLD}{color.YELLOW} decrypted.txt\n{color.END}"
+        )
+        Sec()
     elif ask_file == "b":
         Main()
 
     else:
-        print("\033[31mInvalid input\033[39m")
+        print(color.RED, "Invalid input", color.END)
         Main()
 
 
@@ -70,20 +79,24 @@ def Keygen():
     ask_save = input("Do you want to save your key as txt file yes(y), no(n): ")
 
     if ask_save == "y":
-        with open("keygen.txt", "wb") as f:
+        with open("output\keygen.txt", "wb") as f:
             f.write(key)
-        print("Your key will be saved to keygen.txt")
+        print(
+            f"Your key will be saved to{color.BOLD}{color.YELLOW} keygen.txt{color.END}"
+        )
+        Sec()
 
     elif ask_save == "n":
-        print(f"Here is your key{key}")
+        print(f"Here is your key: {color.LIGHT_BLUE} {key}{color.END}")
+        Sec()
 
     else:
-        print("\033[31mInvalid input\033[39m")
+        print(color.RED, "Invalid input", color.END)
         Main()
 
 
 # ? This is the secondary function for program
-def sec():
+def Sec():
     pass
     ask = input("Do you want to go back yes(y), no(n): ")
     if ask == "y":
@@ -91,10 +104,10 @@ def sec():
 
     elif ask == "n":
         print("Exiting...")
-        exit()
 
     else:
-        print("\033[31mInvalid input\033[39m")
+        print(color.RED, "Invalid input", color.END)
+        Sec()
 
 
 # ? This is the Main function for program
@@ -112,17 +125,19 @@ def Main():
         elif has_key == "n":
             print("Program will generate random key for you.")
             key = Fernet.generate_key()
-            with open("key.txt", "wb") as f:
+            with open("output\key.txt", "wb") as f:
                 f.write(key)
 
-            print("Your key will be saved to key.txt")
+            print(
+                f"Your key will be saved to{color.BOLD}{color.YELLOW} key.txt{color.END}"
+            )
             Encrypt(key)
 
         elif has_key == "b":
             Main()
 
         else:
-            print("\033[31mInvalid input\033[39m")
+            print(color.RED, "Invalid input", color.END)
             Main()
 
     elif choise == "d":
@@ -134,7 +149,7 @@ def Main():
     elif choise == "q":
         exit()
     else:
-        print("\033[31mInvalid input\033[39m")
+        print(color.RED, "Invalid input", color.END)
         Main()
 
 
