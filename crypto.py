@@ -2,7 +2,7 @@ from cryptography.fernet import Fernet
 
 
 print("Welcome to my encryption program!")
-print("Currently there is a bug. Saved files updates after exit of the program.\n") # TODO What causing this?
+print("Please update me with bugs and your ideas.")
 
 # ? This is the encryption code
 def Encrypt(key):
@@ -12,25 +12,23 @@ def Encrypt(key):
     if ask_file == "t":
         text = input("Enter text for encrypting with random key: ")
         encrypted_text = fe.encrypt(bytes(text, "utf-8"))
-        f = open("encrypted.txt", "wb")
-        f.write(encrypted_text)
-        f.close
+        with open("encrypted.txt", "wb") as f:
+            f.write(encrypted_text)
         print("Encrypted text will be saved to encrypted.txt\n")
 
     elif ask_file == "f":
         path_file = input("Enter the file path: ")
-        file = open(f"{path_file}", "rb")
-        encrypted_text = fe.encrypt(file.read())
-        f = open("encrypted.txt", "wb")
-        f.write(encrypted_text)
-        f.close # ! It doesn't do anything?
+        with open(f"{path_file}", "rb") as file_encrypt:
+            encrypted_text = fe.encrypt(file_encrypt.read())
+        with open("encrypted.txt", "wb") as f:
+            f.write(encrypted_text)
         print("Encrypted text will be saved to encrypted.txt\n")
 
     elif ask_file == "b":
         return Main()
 
     else:
-        print("\033[31mInvalid input\033[39m") # TODO integrate color.py file
+        print("\033[31mInvalid input\033[39m")  # TODO integrate color.py file
         return Main()
 
 
@@ -42,21 +40,18 @@ def Decrypt():
 
     if ask_file == "t":
         text = input("Enter encrypted test: \n")
-
         decrypted_text = fe.decrypt(bytes(text, "utf-8"))
-        f = open("decrypted.txt", "wb")
-        f.write(decrypted_text)
-        f.close
+        with open("decrypted.txt", "wb") as f:
+            f.write(decrypted_text)
         print("Decrypted text will be saved to decrypted.txt")
 
-# ? This part of the code takes input from a file given by user
+    # ? This part of the code takes input from a file given by user
     elif ask_file == "f":
         path_file = input("Enter the file path: ")
-        file = open(f"{path_file}", "rb")
-        decrypted_text = fe.decrypt(file.read())
-        f = open("decrypted.txt", "wb")
-        f.write(decrypted_text)
-        f.close
+        with open(f"{path_file}", "rb") as file_decrypt:
+            decrypted_text = fe.decrypt(file_decrypt.read())
+        with open("decrypted.txt", "wb") as f:
+            f.write(decrypted_text)
         print("Decrypted text will besaved to decrypted.txt\n")
 
     elif ask_file == "b":
@@ -75,9 +70,8 @@ def Keygen():
     ask_save = input("Do you want to save your key as txt file yes(y), no(n): ")
 
     if ask_save == "y":
-        f = open("keygen.txt", "wb")
-        f.write(key)
-        f.close
+        with open("keygen.txt", "wb") as f:
+            f.write(key)
         print("Your key will be saved to keygen.txt")
 
     elif ask_save == "n":
@@ -118,9 +112,8 @@ def Main():
         elif has_key == "n":
             print("Program will generate random key for you.")
             key = Fernet.generate_key()
-            f = open("key.txt", "wb")
-            f.write(key)
-            f.close
+            with open("key.txt", "wb") as f:
+                f.write(key)
 
             print("Your key will be saved to key.txt")
             Encrypt(key)
