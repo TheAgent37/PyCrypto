@@ -1,6 +1,6 @@
 from cryptography.fernet import Fernet
 import color
-
+import os
 
 print(
     f"""
@@ -27,7 +27,8 @@ def Encrypt(key):
     if ask_file == "t":
         text = input("Enter text for encrypting with random key: ")
         encrypted_text = fe.encrypt(bytes(text, "utf-8"))
-        with open("output\encrypted.txt", "wb") as f:
+        file_path = os.path.join('output', 'encrypted.txt')
+        with open(file_path, "wb") as f:
             f.write(encrypted_text)
         print(
             f"Encrypted text will be saved to{color.BOLD}{color.YELLOW} encrypted.txt\n{color.END}"
@@ -37,7 +38,8 @@ def Encrypt(key):
         path_file = input("Enter the file path: ")
         with open(f"{path_file}", "rb") as file_encrypt:
             encrypted_text = fe.encrypt(file_encrypt.read())
-        with open("output\encrypted.txt", "wb") as f:
+            file_path = os.path.join('output', 'encrypted.txt')
+        with open(file_path, "wb") as f:
             f.write(encrypted_text)
         print(
             f"Encrypted text will be saved to{color.BOLD}{color.YELLOW} encrypted.txt\n{color.END}"
@@ -60,7 +62,8 @@ def Decrypt():
     if ask_file == "t":
         text = input("Enter encrypted test: \n")
         decrypted_text = fe.decrypt(bytes(text, "utf-8"))
-        with open("output\decrypted.txt", "wb") as f:
+        file_path = os.path.join('output', 'decrypted.txt')
+        with open(file_path, "wb") as f:
             f.write(decrypted_text)
         print(
             f"Decrypted text will be saved to{color.BOLD}{color.YELLOW} decrypted.txt{color.END}"
@@ -71,7 +74,8 @@ def Decrypt():
         path_file = input("Enter the file path: ")
         with open(f"{path_file}", "rb") as file_decrypt:
             decrypted_text = fe.decrypt(file_decrypt.read())
-        with open("output\decrypted.txt", "wb") as f:
+            file_path = os.path.join('output', 'decrypted.txt')
+        with open(file_path, "wb") as f:
             f.write(decrypted_text)
         print(
             f"Decrypted text will besaved to{color.BOLD}{color.YELLOW} decrypted.txt\n{color.END}"
@@ -93,7 +97,8 @@ def Keygen():
     ask_save = input("Do you want to save your key as txt file yes(y), no(n): ")
 
     if ask_save == "y":
-        with open("output\keygen.txt", "wb") as f:
+        file_path = os.path.join('output', 'keygen.txt')
+        with open(file_path, "wb") as f:
             f.write(key)
         print(
             f"Your key will be saved to{color.BOLD}{color.YELLOW} keygen.txt{color.END}"
@@ -139,7 +144,8 @@ def Main():
         elif has_key == "n":
             print("Program will generate random key for you.")
             key = Fernet.generate_key()
-            with open("output\key.txt", "wb") as f:
+            file_path = os.path.join('output', 'key.txt')
+            with open(file_path, "wb") as f:
                 f.write(key)
 
             print(
