@@ -5,7 +5,7 @@ print("Welcome to my encryption program!")
 print("Currently there is a bug. Saved files updates after exit of the program.\n")
 
 # ? This is the encryption code
-def encrypt(key):
+def Encrypt(key):
     fe = Fernet(key)
     ask_file = input("Select input type: text(t), file(f), back(b): ")
 
@@ -29,15 +29,15 @@ def encrypt(key):
         # return sec()
 
     elif ask_file == "b":
-        return main()
+        return Main()
 
     else:
         print("\033[31mInvalid input\033[39m")
-        return main()
+        return Main()
 
 
 # ? This is the decryption code
-def decrypt():
+def Decrypt():
     key = input("Please enter your key: \n")
     ask_file = input("Select input type: text(t), file(f), back(b): ")
     fe = Fernet(key)
@@ -62,15 +62,15 @@ def decrypt():
         print("Decrypted text will besaved to decrypted.txt\n")
 
     elif ask_file == "b":
-        main()
+        Main()
 
     else:
         print("\033[31mInvalid input\033[39m")
-        main()
+        Main()
 
 
 # ? This is the key generator
-def keygen():
+def Keygen():
     key = Fernet.generate_key()
     print("Your random key is generated!\n")
 
@@ -87,7 +87,7 @@ def keygen():
 
     else:
         print("\033[31mInvalid input\033[39m")
-        main()
+        Main()
 
 
 # ? This is the secondary function for program
@@ -95,7 +95,7 @@ def sec():
     pass
     ask = input("Do you want to go back yes(y), no(n): ")
     if ask == "y":
-        main()
+        Main()
 
     elif ask == "n":
         print("Exiting...")
@@ -105,8 +105,8 @@ def sec():
         print("\033[31mInvalid input\033[39m")
 
 
-# ? This is the main function for program
-def main():
+# ? This is the Main function for program
+def Main():
     choise = input(
         "What you want to do? encrypt(e), decrypt(d), key generator(kg), quit(q): "
     )
@@ -115,7 +115,7 @@ def main():
 
         if has_key == "y":
             key = bytes(input("Please enter your key: "), "utf-8")
-            encrypt(key)
+            Encrypt(key)
 
         elif has_key == "n":
             print("Program will generate random key for you.")
@@ -125,26 +125,26 @@ def main():
             f.close
 
             print("Your key will be saved to key.txt")
-            encrypt(key)
+            Encrypt(key)
 
         elif has_key == "b":
-            main()
+            Main()
 
         else:
             print("\033[31mInvalid input\033[39m")
-            main()
+            Main()
 
     elif choise == "d":
-        decrypt()
+        Decrypt()
 
     elif choise == "kg":
-        keygen()
+        Keygen()
 
     elif choise == "q":
         exit()
     else:
         print("\033[31mInvalid input\033[39m")
-        main()
+        Main()
 
 
-main()
+Main()
