@@ -2,7 +2,7 @@ from cryptography.fernet import Fernet
 
 
 print("Welcome to my encryption program!")
-print("Currently there is a bug. Saved files updates after exit of the program.\n")
+print("Currently there is a bug. Saved files updates after exit of the program.\n") # TODO What causing this?
 
 # ? This is the encryption code
 def Encrypt(key):
@@ -16,7 +16,6 @@ def Encrypt(key):
         f.write(encrypted_text)
         f.close
         print("Encrypted text will be saved to encrypted.txt\n")
-        # return sec()
 
     elif ask_file == "f":
         path_file = input("Enter the file path: ")
@@ -24,15 +23,14 @@ def Encrypt(key):
         encrypted_text = fe.encrypt(file.read())
         f = open("encrypted.txt", "wb")
         f.write(encrypted_text)
-        f.close
+        f.close # ! It doesn't do anything?
         print("Encrypted text will be saved to encrypted.txt\n")
-        # return sec()
 
     elif ask_file == "b":
         return Main()
 
     else:
-        print("\033[31mInvalid input\033[39m")
+        print("\033[31mInvalid input\033[39m") # TODO integrate color.py file
         return Main()
 
 
@@ -50,8 +48,8 @@ def Decrypt():
         f.write(decrypted_text)
         f.close
         print("Decrypted text will be saved to decrypted.txt")
-        # return sec()
 
+# ? This part of the code takes input from a file given by user
     elif ask_file == "f":
         path_file = input("Enter the file path: ")
         file = open(f"{path_file}", "rb")
