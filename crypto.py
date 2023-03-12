@@ -27,66 +27,97 @@ def Encrypt(key):
     if ask_file == "t":
         text = input("Enter text for encrypting with random key: ")
         encrypted_text = fe.encrypt(bytes(text, "utf-8"))
-        file_path = os.path.join('output', 'encrypted.txt')
+        file_path = os.path.join("output", "encrypted.txt")
         with open(file_path, "wb") as f:
             f.write(encrypted_text)
         print(
             f"Encrypted text will be saved to{color.BOLD}{color.YELLOW} encrypted.txt\n{color.END}"
         )
         Sec()
+
     elif ask_file == "f":
         path_file = input("Enter the file path: ")
+        try:
+            with open(f"{path_file}", "rb") as file_encrypt:
+                encrypted_text = fe.encrypt(file_encrypt.read())
+        except FileNotFoundError:
+            print(color.RED, "Invalid input. File not found.", color.END)
+            Encrypt(key)
         with open(f"{path_file}", "rb") as file_encrypt:
             encrypted_text = fe.encrypt(file_encrypt.read())
-            file_path = os.path.join('output', 'encrypted.txt')
+            file_path = os.path.join("output", "encrypted.txt")
         with open(file_path, "wb") as f:
             f.write(encrypted_text)
         print(
             f"Encrypted text will be saved to{color.BOLD}{color.YELLOW} encrypted.txt\n{color.END}"
         )
         Sec()
+
     elif ask_file == "b":
         return Main()
 
     else:
         print(color.RED, "Invalid input", color.END)
-        return Main()
+        return Encrypt(key)
 
 
 # ? This is the decryption code
-def Decrypt():
-    key = input("Please enter your key: \n")
+def Decrypt(key):
     ask_file = input("Select input type: text(t), file(f), back(b): ")
+    try:
+        fe = Fernet(key)
+    except ValueError:
+        print(color.RED, "Invalid input. Your key should be 32 bytes", color.END)
+        Decrypt()
     fe = Fernet(key)
 
     if ask_file == "t":
         text = input("Enter encrypted test: \n")
+        try:
+            decrypted_text = fe.decrypt(bytes(text, "utf-8"))
+        except:
+            print(color.RED, "Err! Encrypted text and key doesn't match.", color.END)
+            Decrypt()
         decrypted_text = fe.decrypt(bytes(text, "utf-8"))
-        file_path = os.path.join('output', 'decrypted.txt')
+        file_path = os.path.join("output", "decrypted.txt")
         with open(file_path, "wb") as f:
             f.write(decrypted_text)
         print(
             f"Decrypted text will be saved to{color.BOLD}{color.YELLOW} decrypted.txt{color.END}"
         )
         Sec()
+
     # ? This part of the code takes input from a file given by user
     elif ask_file == "f":
         path_file = input("Enter the file path: ")
+        try:
+            with open(f"{path_file}", "rb") as file_decrypt:
+                pass
+        except FileNotFoundError:
+            print(color.RED, "Invalid input. File not found.", color.END)
         with open(f"{path_file}", "rb") as file_decrypt:
+            try:
+                decrypted_text = fe.decrypt(bytes(text, "utf-8"))
+            except:
+                print(
+                    color.RED, "Err! Encrypted text and key doesn't match.", color.END
+                )
+                Decrypt(key)
             decrypted_text = fe.decrypt(file_decrypt.read())
-            file_path = os.path.join('output', 'decrypted.txt')
+            file_path = os.path.join("output", "decrypted.txt")
         with open(file_path, "wb") as f:
             f.write(decrypted_text)
         print(
             f"Decrypted text will besaved to{color.BOLD}{color.YELLOW} decrypted.txt\n{color.END}"
         )
         Sec()
+
     elif ask_file == "b":
         Main()
 
     else:
         print(color.RED, "Invalid input", color.END)
-        Main()
+        Decrypt(key)
 
 
 # ? This is the key generator
@@ -97,7 +128,7 @@ def Keygen():
     ask_save = input("Do you want to save your key as txt file yes(y), no(n): ")
 
     if ask_save == "y":
-        file_path = os.path.join('output', 'keygen.txt')
+        file_path = os.path.join("output", "keygen.txt")
         with open(file_path, "wb") as f:
             f.write(key)
         print(
@@ -115,8 +146,7 @@ def Keygen():
 
 
 # ? This is the secondary function for program
-def Sec():
-    pass
+def Sec():  # TODO Will deprecated
     ask = input("Do you want to go back yes(y), no(n): ")
     if ask == "y":
         Main()
@@ -130,7 +160,7 @@ def Sec():
 
 
 # ? This is the Main function for program
-def Main():
+def Main():  # TODO add welcome back message
     choise = input(
         "What you want to do? encrypt(e), decrypt(d), key generator(kg), quit(q): "
     )
@@ -139,12 +169,19 @@ def Main():
 
         if has_key == "y":
             key = bytes(input("Please enter your key: "), "utf-8")
+            try:
+                fe = Fernet(key)
+            except ValueError:
+                print(
+                    color.RED, "Invalid input. Your key should be 32 bytes", color.END
+                )
+                Main()
             Encrypt(key)
 
         elif has_key == "n":
             print("Program will generate random key for you.")
             key = Fernet.generate_key()
-            file_path = os.path.join('output', 'key.txt')
+            file_path = os.path.join("output", "key.txt")
             with open(file_path, "wb") as f:
                 f.write(key)
 
@@ -161,7 +198,13 @@ def Main():
             Main()
 
     elif choise == "d":
-        Decrypt()
+        key = input("Please enter your key: \n")
+        try:
+            fe = Fernet(key)
+        except ValueError:
+            print(color.RED, "Invalid input. Your key should be 32 bytes", color.END)
+            Main()
+        Decrypt(key)
 
     elif choise == "kg":
         Keygen()
