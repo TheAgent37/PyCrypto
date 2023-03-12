@@ -33,7 +33,7 @@ def Encrypt(key):
         print(
             f"Encrypted text will be saved to{color.BOLD}{color.YELLOW} encrypted.txt\n{color.END}"
         )
-        Sec()
+        Main(True)
 
     elif ask_file == "f":
         path_file = input("Enter the file path: ")
@@ -51,14 +51,14 @@ def Encrypt(key):
         print(
             f"Encrypted text will be saved to{color.BOLD}{color.YELLOW} encrypted.txt\n{color.END}"
         )
-        Sec()
+        Main(True)
 
     elif ask_file == "b":
-        return Main()
+        Main(True)
 
     else:
         print(color.RED, "Invalid input", color.END)
-        return Encrypt(key)
+        Encrypt(key)
 
 
 # ? This is the decryption code
@@ -85,7 +85,7 @@ def Decrypt(key):
         print(
             f"Decrypted text will be saved to{color.BOLD}{color.YELLOW} decrypted.txt{color.END}"
         )
-        Sec()
+        Main(True)
 
     # ? This part of the code takes input from a file given by user
     elif ask_file == "f":
@@ -110,10 +110,10 @@ def Decrypt(key):
         print(
             f"Decrypted text will besaved to{color.BOLD}{color.YELLOW} decrypted.txt\n{color.END}"
         )
-        Sec()
+        Main(True)
 
     elif ask_file == "b":
-        Main()
+        Main(True)
 
     else:
         print(color.RED, "Invalid input", color.END)
@@ -134,35 +134,23 @@ def Keygen():
         print(
             f"Your key will be saved to{color.BOLD}{color.YELLOW} keygen.txt{color.END}"
         )
-        Sec()
+        Main(True)
 
     elif ask_save == "n":
         print(f"Here is your key: {color.LIGHT_BLUE} {key}{color.END}")
-        Sec()
+        Main(True)
 
     else:
         print(color.RED, "Invalid input", color.END)
-        Main()
-
-
-# ? This is the secondary function for program
-def Sec():  # TODO Will deprecated
-    ask = input("Do you want to go back yes(y), no(n): ")
-    if ask == "y":
-        Main()
-
-    elif ask == "n":
-        print("Exiting...")
-
-    else:
-        print(color.RED, "Invalid input", color.END)
-        Sec()
+        Main(True)
 
 
 # ? This is the Main function for program
-def Main():  # TODO add welcome back message
+def Main(wb):
+    if wb:
+        print("Welcome back!")
     choise = input(
-        "What you want to do? encrypt(e), decrypt(d), key generator(kg), quit(q): "
+        "Please select operation. encrypt(e), decrypt(d), key generator(kg), quit(q): "
     )
     if choise == "e":
         has_key = input("Do you have a key yes(y), no(n) back(b): ")
@@ -175,7 +163,7 @@ def Main():  # TODO add welcome back message
                 print(
                     color.RED, "Invalid input. Your key should be 32 bytes", color.END
                 )
-                Main()
+                Main(True)
             Encrypt(key)
 
         elif has_key == "n":
@@ -191,11 +179,11 @@ def Main():  # TODO add welcome back message
             Encrypt(key)
 
         elif has_key == "b":
-            Main()
+            Main(wb)
 
         else:
             print(color.RED, "Invalid input", color.END)
-            Main()
+            Main(wb)
 
     elif choise == "d":
         key = input("Please enter your key: \n")
@@ -203,7 +191,7 @@ def Main():  # TODO add welcome back message
             fe = Fernet(key)
         except ValueError:
             print(color.RED, "Invalid input. Your key should be 32 bytes", color.END)
-            Main()
+            Main(wb)
         Decrypt(key)
 
     elif choise == "kg":
@@ -213,7 +201,7 @@ def Main():  # TODO add welcome back message
         exit()
     else:
         print(color.RED, "Invalid input", color.END)
-        Main()
+        Main(wb)
 
 
 Main()
