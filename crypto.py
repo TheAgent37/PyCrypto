@@ -203,5 +203,5 @@ def Main(wb):
         print(color.RED, "Invalid input", color.END)
         Main(wb)
 
-
-Main()
+wb = False
+Main(wb)
