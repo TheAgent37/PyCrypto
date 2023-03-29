@@ -1,23 +1,23 @@
 from cryptography.fernet import Fernet
-import os
+from os import path, mkdir
 import color
 
 
 def decrypt():
     # ? Get key
-    key = input("Please enter your key: \n")
+    key = bytes(input("Please enter your key: \n"), "UTF-8")
     try:
         fe = Fernet(key)
     except ValueError:
         print(color.RED, "Invalid input. Your key should be 32 bytes", color.END)
         decrypt()
 
-    # ? Get method
-    ask_method = input("Select input type: text(t), file(f): ")
+    # ? Get type
+    ask_type = input("Select input type: text(t), file(f): ")
     fe = Fernet(key)
 
     # ? Text
-    if ask_method == "t":
+    if ask_type == "t":
         text = input("Enter encrypted test: \n")
         try:
             decrypted_text = fe.decrypt(bytes(text, "utf-8"))
@@ -25,7 +25,9 @@ def decrypt():
             print(color.RED, "Err! Encrypted text and key doesn't match.", color.END)
             decrypt()
         decrypted_text = fe.decrypt(bytes(text, "utf-8"))
-        file_path = os.path.join("output", "decrypted.txt")
+        if not path.exists("output"):
+            mkdir("output")
+        file_path = path.join("output", "decrypted.txt")
         with open(file_path, "wb") as f:
             f.write(decrypted_text)
         print(
@@ -33,7 +35,7 @@ def decrypt():
         )
 
     # ? File
-    elif ask_method == "f":
+    elif ask_type == "f":
         file_path = input("Enter the file path: ")
         try:
             with open(f"{file_path}", "rb") as file_decrypt:
@@ -49,7 +51,9 @@ def decrypt():
                 )
                 decrypt()
             decrypted_text = fe.decrypt(file_decrypt.read())
-            file_path = os.path.join("output", "decrypted.txt")
+            if not path.exists("output"):
+                mkdir("output")
+            file_path = path.join("output", "decrypted.txt")
         with open(file_path, "wb") as f:
             f.write(decrypted_text)
         print(

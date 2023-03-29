@@ -1,5 +1,6 @@
 import color
 
+# TODO: Add support for public, private keys
 print(
     f"""
 {color.CYAN}
@@ -26,23 +27,23 @@ def main(wb):
     )
     # Encrypt
     if choise == "e":
-        import encrypt as e
+        from encrypt import encrypt
 
-        e.encrypt()
+        encrypt()
         main(True)
 
     # Decrypt
     elif choise == "d":
-        import decrypt as d
+        from decrypt import decrypt
 
-        d.decrypt()
+        decrypt()
         main(True)
 
     # Key Generator
     elif choise == "kg":
-        import keygen as kg
+        from keygen import keygen
 
-        kg.keygen()
+        keygen()
         main(True)
 
     # Exit
