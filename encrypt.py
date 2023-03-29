@@ -16,17 +16,15 @@ def encrypt():
 
     elif has_key == "n":
         print("Program will generate random key for you.")
-        key = Fernet.generate_key()
-        file_path = path.join("output", "key.txt")
-        with open(file_path, "wb") as f:
-            f.write(key)
-        print(f"Your key will be saved to{color.BOLD}{color.YELLOW} key.txt{color.END}")
+        from keygen import keygen
+
+        key = keygen()
 
     else:
         print(color.RED, "Invalid input", color.END)
         encrypt()
 
-    # ? Get method
+    # ? Get type
     fe = Fernet(key)
     ask_type = input("Select input type: text(t), file(f), folder(fo): ")
 
@@ -34,6 +32,8 @@ def encrypt():
     if ask_type == "t":
         text = input("Enter text for encrypting with random key: ")
         encrypted_text = fe.encrypt(bytes(text, "utf-8"))
+        if not path.exists("output"):
+            mkdir("output")
         file_path = path.join("output", "encrypted.txt")
         with open(file_path, "wb") as f:
             f.write(encrypted_text)
