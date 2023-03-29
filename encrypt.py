@@ -1,5 +1,6 @@
 from cryptography.fernet import Fernet
-from os import path, mkdir, remove, listdir
+from os import path, mkdir, remove, listdir, walk
+from zipfile import ZipFile
 import color
 
 
@@ -58,25 +59,32 @@ def encrypt():
         print(
             f"Encrypted text will be saved to{color.BOLD}{color.YELLOW} {file_path + '.encrypted'}\n{color.END}"
         )
-        remove(file_path)
 
-    # ? Entire Folder
+    # ? Folder
     elif ask_type == "fo":
         folder_path = input("Enter folder path: ")
-        if path.isdir(folder_path) is False:
+        if not path.isdir(folder_path):
             print(color.RED, "Invalid input,", color.END)
             encrypt()
 
-        for filename in listdir(folder_path):
-            if path.isfile(path.join(folder_path, filename)):
-                with open(f"{folder_path}/{filename}", "rb") as f:
-                    original = f.read()
-                encrypted = fe.encrypt(original)
-                with open(
-                    f"{folder_path}/{filename}" + ".encrypted", "wb"
-                ) as encrypted_file:
-                    encrypted_file.write(encrypted)
-                remove(f"{folder_path}/{filename}")
+        # ? Zip
+        with ZipFile(f"{folder_path}.zip", "w") as zip:
+            for root, dirs, files in walk(folder_path):
+                for file in files:
+                    zip.write(path.join(root, file))
+
+        # ? Encryption
+        with open(f"{folder_path}.zip", "rb") as zip_encrypt:
+            encrypted_text = fe.encrypt(zip_encrypt.read())
+            if not path.exists("output"):
+                mkdir("output")
+            folder_path = path.join("output", folder_path)
+        with open(folder_path + ".encrypted", "wb") as z:
+            z.write(encrypted_text)
+        remove(f"{folder_path}.zip")
+        print(
+            f"Encrypted text will be saved to{color.BOLD}{color.YELLOW} {folder_path + '.encrypted'}\n{color.END}"
+        )
 
     else:
         print(color.RED, "Invalid input", color.END)
