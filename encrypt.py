@@ -5,7 +5,7 @@ import color
 
 
 def encrypt():
-    # ? Get key
+    # * Get key
     has_key = input("Do you have a key yes(y), no(n): ")
     if has_key == "y":
         key = bytes(input("Please enter your key: "), "utf-8")
@@ -25,11 +25,11 @@ def encrypt():
         print(color.RED, "Invalid input", color.END)
         encrypt()
 
-    # ? Get type
+    # * Get type
     fe = Fernet(key)
     ask_type = input("Select input type: text(t), file(f), folder(fo): ")
 
-    # ? Text
+    # * Text
     if ask_type == "t":
         text = input("Enter text for encrypting with random key: ")
         encrypted_text = fe.encrypt(bytes(text, "utf-8"))
@@ -42,7 +42,7 @@ def encrypt():
             f"Encrypted text will be saved to{color.BOLD}{color.YELLOW} encrypted.txt\n{color.END}"
         )
 
-    # ? File
+    # * File
     elif ask_type == "f":
         file_path = input("Enter the file path: ")
 
@@ -60,20 +60,20 @@ def encrypt():
             f"Encrypted text will be saved to{color.BOLD}{color.YELLOW} {file_path + '.encrypted'}\n{color.END}"
         )
 
-    # ? Folder
+    # * Folder
     elif ask_type == "fo":
         folder_path = input("Enter folder path: ")
         if not path.isdir(folder_path):
             print(color.RED, "Invalid input,", color.END)
             encrypt()
 
-        # ? Zip
+        # * Zip
         with ZipFile(f"{folder_path}.zip", "w") as zip:
             for root, dirs, files in walk(folder_path):
                 for file in files:
                     zip.write(path.join(root, file))
 
-        # ? Encryption
+        # * Encryption
         with open(f"{folder_path}.zip", "rb") as zip_encrypt:
             encrypted_text = fe.encrypt(zip_encrypt.read())
             if not path.exists("output"):

@@ -1,6 +1,6 @@
 import color
 
-# TODO: Add support for public, private keys
+# TODO: Add support for asymetric encryption
 print(
     f"""
 {color.CYAN}

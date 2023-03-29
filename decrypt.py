@@ -4,7 +4,7 @@ import color
 
 
 def decrypt():
-    # ? Get key
+    # * Get key
     key = bytes(input("Please enter your key: \n"), "UTF-8")
     try:
         fe = Fernet(key)
@@ -12,11 +12,11 @@ def decrypt():
         print(color.RED, "Invalid input. Your key should be 32 bytes", color.END)
         decrypt()
 
-    # ? Get type
+    # * Get type
     ask_type = input("Select input type: text(t), file(f): ")
     fe = Fernet(key)
 
-    # ? Text
+    # * Text
     if ask_type == "t":
         text = input("Enter encrypted test: \n")
         try:
@@ -34,7 +34,7 @@ def decrypt():
             f"Decrypted text will be saved to{color.BOLD}{color.YELLOW} decrypted.txt{color.END}"
         )
 
-    # ? File
+    # * File
     elif ask_type == "f":
         file_path = input("Enter the file path: ")
         try:
